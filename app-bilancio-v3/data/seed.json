@@ -1,0 +1,45 @@
+{
+  "categories": [
+    {
+      "id": "c-gro",
+      "name": "Spesa",
+      "color": "#4caf50"
+    },
+    {
+      "id": "c-rent",
+      "name": "Affitto",
+      "color": "#f44336"
+    },
+    {
+      "id": "c-sal",
+      "name": "Stipendio",
+      "color": "#2196f3"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "t1",
+      "type": "expense",
+      "categoryId": "c-gro",
+      "amount": 45.2,
+      "date": "2025-08-28",
+      "note": "Supermercato"
+    },
+    {
+      "id": "t2",
+      "type": "expense",
+      "categoryId": "c-rent",
+      "amount": 700.0,
+      "date": "2025-08-01",
+      "note": "Agosto"
+    },
+    {
+      "id": "t3",
+      "type": "income",
+      "categoryId": "c-sal",
+      "amount": 1800.0,
+      "date": "2025-08-31",
+      "note": "Agosto"
+    }
+  ]
+}

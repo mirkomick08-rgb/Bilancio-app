@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>App Bilancio v3</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0ea5e9">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>💰 App Bilancio <small>v3</small></h1>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Riepilogo mese</h2>
+      <div id="summary">
+        <div>Entrate: <strong id="inc">-</strong></div>
+        <div>Spese: <strong id="exp">-</strong></div>
+        <div>Saldo: <strong id="bal">-</strong></div>
+      </div>
+      <label>Mese (YYYY-MM): <input id="month" type="month"></label>
+      <button id="refresh">Aggiorna</button>
+    </section>
+
+    <section class="card">
+      <h2>Nuova transazione</h2>
+      <form id="txnForm">
+        <select id="type">
+          <option value="expense">Spesa</option>
+          <option value="income">Entrata</option>
+        </select>
+        <select id="category"></select>
+        <input id="amount" type="number" step="0.01" placeholder="Importo">
+        <input id="date" type="date">
+        <input id="note" type="text" placeholder="Nota (opzionale)">
+        <button type="submit">Salva</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Transazioni</h2>
+      <div class="filters">
+        <input id="from" type="date">
+        <input id="to" type="date">
+        <button id="load">Carica</button>
+      </div>
+      <table id="txTable">
+        <thead>
+          <tr><th>Data</th><th>Tipo</th><th>Categoria</th><th>Importo</th><th>Nota</th><th></th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>Offline-ready • API: <code id="apiBase"></code></footer>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
