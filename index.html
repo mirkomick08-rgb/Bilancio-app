@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro Entrate/Uscite</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2c3e50">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #2c3e50; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background-color: #2c3e50; color: white; }
+    input, select, button { margin: 5px; padding: 5px; }
+  </style>
+</head>
+<body>
+  <h1>📒 Registro Entrate/Uscite</h1>
+
+  <form id="form">
+    <input type="date" id="data" required>
+    <input type="text" id="descrizione" placeholder="Descrizione" required>
+    <select id="tipo">
+      <option value="Entrata">Entrata</option>
+      <option value="Uscita">Uscita</option>
+    </select>
+    <input type="number" id="importo" placeholder="Importo (€)" required>
+    <button type="submit">Aggiungi</button>
+  </form>
+
+  <table id="tabella">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Descrizione</th>
+        <th>Tipo</th>
+        <th>Importo (€)</th>
+        <th>Saldo (€)</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h3 id="totali"></h3>
+
+  <script>
+    let saldo = 0;
+    const tbody = document.querySelector("#tabella tbody");
+    const form = document.getElementById("form");
+    const totali = document.getElementById("totali");
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const data = document.getElementById("data").value;
+      const descrizione = document.getElementById("descrizione").value;
+      const tipo = document.getElementById("tipo").value;
+      const importo = parseFloat(document.getElementById("importo").value);
+
+      if (tipo === "Entrata") saldo += importo;
+      else saldo -= importo;
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${data}</td>
+        <td>${descrizione}</td>
+        <td>${tipo}</td>
+        <td>${tipo === "Entrata" ? "+" : "-"}${importo}</td>
+        <td>${saldo}</td>
+      `;
+      tbody.appendChild(tr);
+
+      aggiornaTotali();
+      form.reset();
+    });
+
+    function aggiornaTotali() {
+      let entrate = 0, uscite = 0;
+      document.querySelectorAll("#tabella tbody tr").forEach(riga => {
+        const tipo = riga.children[2].textContent;
+        const importo = parseFloat(riga.children[3].textContent.replace("+","").replace("-",""));
+        if (tipo === "Entrata") entrate += importo;
+        else uscite += importo;
+      });
+      totali.textContent = `Totale Entrate: ${entrate} € | Totale Uscite: ${uscite} € | Saldo Finale: ${saldo} €`;
+    }
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+</body>
+</html>
